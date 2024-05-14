@@ -81,28 +81,24 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
         [ModuleAction(ControlKey = "Edit", TitleKey = "AddItem")]
         public ActionResult Index()
         {
-            int quantity = 0;
-            string uid = "";
-            string name = "";
-            string type = "";
-            DateTime created = DateTime.UtcNow;
-            DateTime modified = DateTime.UtcNow;
-
-            System.Diagnostics.Debugger.Launch();
             var items = ItemManager.Instance.GetItems(ModuleContext.ModuleId);
 
             var current_user_ID = base.User.UserID;
 
             var passes = PassesManager.Instance.GetPassesByUserID(current_user_ID);
 
-            foreach(var pass in passes)
+            if (passes.Count() ==0)
             {
-                uid = pass.UserID;
-                name = pass.Name;
-                type = pass.Type;
-                created = DateTime.UtcNow;
-                quantity = pass.Quantity;
-                modified = created.AddDays(5*quantity);
+                return View("Még nem vásároltál privát órát!");
+            }
+            else
+            {
+                List<Passes> pass_List =  new List<Passes>();
+                foreach (var item in passes)
+                {
+                    pass_List.Add(item);
+                }
+                return View(pass_List);
             }
 
             //var orders = OrderManager.Instance.GetOrderByUser(current_user_ID);
