@@ -1,0 +1,10 @@
+C:\DotNetNuke\bin\RekaEsAHaromBalazs.Dnn.TananyagKovetes.dll.config
+C:\DotNetNuke\bin\RekaEsAHaromBalazs.Dnn.TananyagKovetes.dll
+C:\DotNetNuke\bin\RekaEsAHaromBalazs.Dnn.TananyagKovetes.pdb
+C:\DotNetNuke\DesktopModules\RekaEsAHaromBalazs.Dnn.TananyagKovetes\RekaEsAHaromBalazs.Dnn.TananyagKovetes\obj\Release\RekaEsAHaromBalazs.Dnn.TananyagKovetes.csproj.AssemblyReference.cache
+C:\DotNetNuke\DesktopModules\RekaEsAHaromBalazs.Dnn.TananyagKovetes\RekaEsAHaromBalazs.Dnn.TananyagKovetes\obj\Release\TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.App_LocalResources.Settings.resources
+C:\DotNetNuke\DesktopModules\RekaEsAHaromBalazs.Dnn.TananyagKovetes\RekaEsAHaromBalazs.Dnn.TananyagKovetes\obj\Release\RekaEsAHaromBalazs.Dnn.TananyagKovetes.csproj.GenerateResource.cache
+C:\DotNetNuke\DesktopModules\RekaEsAHaromBalazs.Dnn.TananyagKovetes\RekaEsAHaromBalazs.Dnn.TananyagKovetes\obj\Release\RekaEsAHaromBalazs.Dnn.TananyagKovetes.csproj.CoreCompileInputs.cache
+C:\DotNetNuke\DesktopModules\RekaEsAHaromBalazs.Dnn.TananyagKovetes\RekaEsAHaromBalazs.Dnn.TananyagKovetes\obj\Release\RekaEsAHaromBalazs.Dnn.TananyagKovetes.csproj.CopyComplete
+C:\DotNetNuke\DesktopModules\RekaEsAHaromBalazs.Dnn.TananyagKovetes\RekaEsAHaromBalazs.Dnn.TananyagKovetes\obj\Release\RekaEsAHaromBalazs.Dnn.TananyagKovetes.dll
+C:\DotNetNuke\DesktopModules\RekaEsAHaromBalazs.Dnn.TananyagKovetes\RekaEsAHaromBalazs.Dnn.TananyagKovetes\obj\Release\RekaEsAHaromBalazs.Dnn.TananyagKovetes.pdb
