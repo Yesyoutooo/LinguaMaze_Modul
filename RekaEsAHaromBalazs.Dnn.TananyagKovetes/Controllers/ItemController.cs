@@ -15,6 +15,7 @@ using DotNetNuke.Framework.JavaScriptLibraries;
 using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Components;
@@ -80,7 +81,40 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
         [ModuleAction(ControlKey = "Edit", TitleKey = "AddItem")]
         public ActionResult Index()
         {
+            int quantity = 0;
+            string uid = "";
+            string name = "";
+            string type = "";
+            DateTime created = DateTime.UtcNow;
+            DateTime modified = DateTime.UtcNow;
+
+            System.Diagnostics.Debugger.Launch();
             var items = ItemManager.Instance.GetItems(ModuleContext.ModuleId);
+
+            var current_user_ID = base.User.UserID;
+
+            var passes = PassesManager.Instance.GetPassesByUserID(current_user_ID);
+
+            foreach(var pass in passes)
+            {
+                uid = pass.UserID;
+                name = pass.Name;
+                type = pass.Type;
+                created = DateTime.UtcNow;
+                quantity = pass.Quantity;
+                modified = created.AddDays(5*quantity);
+            }
+
+            //var orders = OrderManager.Instance.GetOrderByUser(current_user_ID);
+            //List<string> courses_bvin = new List<string>();
+            //foreach ( var order in orders) 
+            //{
+            //    if (ProductManager.Instance.IsCourse(order.bvin))
+            //    {
+            //        courses_bvin.Add(order.bvin);
+            //    }
+            //}
+
             return View(items);
         }
     }

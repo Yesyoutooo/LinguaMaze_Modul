@@ -38,7 +38,7 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Models
         public string bvin { get; set; }
 
         ///<summary>
-        /// Bool, which is true if a the object is a course
+        /// The ID of the user
         ///</summary>
         public int UserId { get; set; }
 

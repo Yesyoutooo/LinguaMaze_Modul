@@ -20,7 +20,7 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Models
 {
     [TableName("hcc_Product")]
     //setup the primary key for table
-    [PrimaryKey("Id", AutoIncrement = true)]
+    [PrimaryKey("bvin", AutoIncrement = true)]
     //configure caching using PetaPoco
     [Cacheable("Product", CacheItemPriority.Default, 20)]
     //scope the objects to the ModuleId of a module on a page (or copy of a module on a page)
