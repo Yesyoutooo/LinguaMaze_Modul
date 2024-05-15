@@ -111,26 +111,20 @@
       <DependentUpon>Settings.resx</DependentUpon>
     </Compile>
     <Compile Include="Components\FeatureController.cs" />
+    <Compile Include="Components\BookingManager.cs" />
     <Compile Include="Components\LessonManager.cs" />
     <Compile Include="Components\PassesManager.cs" />
-    <Compile Include="Components\ProductManager.cs" />
-    <Compile Include="Components\OrderManager.cs" />
     <Compile Include="Components\ItemManager.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Models\Bookings.cs" />
     <Compile Include="Models\Lessons.cs" />
     <Compile Include="Models\Passes.cs" />
-    <Compile Include="Models\hcc_Order.cs" />
-    <Compile Include="Models\hcc_Product.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Models\Settings.cs" />
-    <Compile Include="Models\UserRoles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Documentation\Documentation.css" />
-    <Content Include="Documentation\Documentation.html" />
     <Content Include="License.txt" />
     <Content Include="module.css" />
     <Content Include="ReleaseNotes.txt" />
@@ -170,6 +164,7 @@
     <Content Include="Views\Item\Edit.cshtml" />
     <Content Include="Views\Settings\Settings.cshtml" />
     <Content Include="Views\Item\GetAvailableLessons.cshtml" />
+    <Content Include="Views\Item\ShowLessonDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

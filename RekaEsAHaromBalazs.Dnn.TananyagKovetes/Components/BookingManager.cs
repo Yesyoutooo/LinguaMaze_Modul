@@ -17,51 +17,53 @@ using TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Models;
 
 namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Components
 {
-    internal interface IOrderManager
+    internal interface IBookingManager
     {
-        IEnumerable<hcc_Order> GetItems(int moduleId);
-        hcc_Order GetOrder(string orderId);
-        IEnumerable<hcc_Order> GetOrderByUser(int userID);
+        IEnumerable<Bookings> GetItems(int moduleId);
+        Bookings GetBooking(string orderId);
+        IEnumerable<Bookings> GetBookedLessons(int passId);
     }
 
-    internal class OrderManager : ServiceLocator<IOrderManager, OrderManager>, IOrderManager
+    internal class BookingManager : ServiceLocator<IBookingManager, BookingManager>, IBookingManager
     {
-        public IEnumerable<hcc_Order> GetItems(int moduleId)
+        public IEnumerable<Bookings> GetItems(int moduleId)
         {
-            IEnumerable<hcc_Order> t;
+            IEnumerable<Bookings> t;
             using (IDataContext ctx = DataContext.Instance())
             {
-                var rep = ctx.GetRepository<hcc_Order>();
+                var rep = ctx.GetRepository<Bookings>();
                 t = rep.Get();
             }
             return t;
         }
 
-        public hcc_Order GetOrder(string orderId)
+        public Bookings GetBooking(string bookingId)
         {
-            hcc_Order t;
+            Bookings t;
             using (IDataContext ctx = DataContext.Instance())
             {
-                var rep = ctx.GetRepository<hcc_Order>();
-                t = rep.GetById(orderId);
+                var rep = ctx.GetRepository<Bookings>();
+                t = rep.GetById(bookingId);
             }
             return t;
         }
 
-        public IEnumerable<hcc_Order> GetOrderByUser(int userID)
+        public IEnumerable<Bookings> GetBookedLessons(int passId)
         {
-            IEnumerable<hcc_Order> order;
+            IEnumerable<Bookings> bookedLesson;
             using (IDataContext ctx = DataContext.Instance())
             {
-                var rep = ctx.GetRepository<hcc_Order>();
-                order = rep.Find("WHERE UserID = @0", userID);
+                var rep = ctx.GetRepository<Bookings>();
+                bookedLesson = rep.Find("WHERE Type = @0", passId);
             }
-            return order;
+            return bookedLesson;
         }
 
-        protected override System.Func<IOrderManager> GetFactory()
+
+
+        protected override System.Func<IBookingManager> GetFactory()
         {
-            return () => new OrderManager();
+            return () => new BookingManager();
         }
     }
 }

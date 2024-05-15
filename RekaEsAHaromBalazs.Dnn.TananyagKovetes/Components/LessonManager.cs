@@ -20,8 +20,10 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Components
     internal interface ILessonManager
     {
         IEnumerable<Lessons> GetItems(int moduleId);
-        Lessons GetOrder(string orderId);
+        Lessons GetLesson(string orderId);
         IEnumerable<Lessons> GetLessonsByType(string type);
+
+        IEnumerable<Lessons> GetLessonByID(int lessonID);
     }
 
     internal class LessonManager : ServiceLocator<ILessonManager, LessonManager>, ILessonManager
@@ -37,7 +39,7 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Components
             return t;
         }
 
-        public Lessons GetOrder(string lessonId)
+        public Lessons GetLesson(string lessonId)
         {
             Lessons t;
             using (IDataContext ctx = DataContext.Instance())
@@ -57,6 +59,17 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Components
                 lessonOfType = rep.Find("WHERE Type = @0", type);
             }
             return lessonOfType;
+        }
+
+        public IEnumerable<Lessons> GetLessonByID(int lessonID)
+        {
+            IEnumerable<Lessons> selectedLesson;
+            using (IDataContext ctx = DataContext.Instance())
+            {
+                var rep = ctx.GetRepository<Lessons>();
+                selectedLesson = rep.Find("WHERE ID = @0", lessonID);
+            }
+                return selectedLesson;
         }
 
         protected override System.Func<ILessonManager> GetFactory()

@@ -26,7 +26,7 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
     [DnnHandleError]
     public class ItemController : DnnController
     {
-        
+
         public ActionResult Delete(int itemId)
         {
             ItemManager.Instance.DeleteItem(itemId, ModuleContext.ModuleId);
@@ -93,7 +93,7 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
             }
             else
             {
-                List<Passes> pass_List =  new List<Passes>();
+                List<Passes> pass_List = new List<Passes>();
                 foreach (var item in passes)
                 {
                     pass_List.Add(item);
@@ -130,8 +130,21 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
                 {
                     lessons_List.Add(item);
                 }
-                return View("GetAvailableLessons",lessons_List);
+                return View("GetAvailableLessons", lessons_List);
             }
+        }
+
+        [HttpGet]
+        public ActionResult ShowLessonDetails(int lessonID)
+        {
+            System.Diagnostics.Debugger.Launch();
+            var selectedLesson = LessonManager.Instance.GetLessonByID(lessonID);
+            List<Lessons> lessons_list = new List<Lessons>();
+            foreach (var item in selectedLesson)
+            {
+                lessons_list.Add(item);
+            }
+            return View("ShowLessonDetails", lessons_list);
         }
 
     }
