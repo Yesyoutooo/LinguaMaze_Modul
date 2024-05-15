@@ -1,0 +1,53 @@
+﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<IEnumerable<TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Models.Lessons>>
+
+@using System.Text.RegularExpressions
+@using DotNetNuke.Web.Mvc.Helpers
+@using System.Linq
+@using Dnn.Modules.Console
+
+
+
+<div id="Items-@Dnn.ModuleContext.ModuleId">
+
+    @if (Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+            if (DateTime.UtcNow <= item.DateTime.AddHours(-2) && item.DateTime <= DateTime.UtcNow.AddDays(7))
+            {
+
+                <div style="width: 75%;">
+                    @*<h1>@item.DateTime.ToString("MM.dd")</h1>*@
+                    <div style="float: left; width: 33%; background-color: #f3ebe3; ">
+                        <div style="height: 150px; margin: auto; ">
+                            <p>A bérlet lejár ekkor:</p>
+                            <p>Dátum: @item.DateTime.ToString("yyyy.MM.dd")</p>
+                            <p>Időpont: @item.DateTime.ToString("HH:mm")</p>
+                        </div>
+                    </div>
+
+                    <div style="float: left; width: 33%; background-color: #f3ebe3; ">
+                        <div style="height: 150px;  margin: auto; ">
+                            <p> @item.Name</p>
+                        </div>
+                    </div>
+
+                    <div style="float: left; width: 33%; background-color: #f3ebe3; ">
+                        <div style="height: 150px;  margin: auto;">
+                            <p>Foglalás részletei</p>
+                        </div>
+                    </div>
+
+                </div>
+            }
+        }
+        <div style="float: left;">
+            <a class="btn" href="@Url.Action("Index", "Item")">Vissza a bérleteimhez</a>
+        </div>
+    }
+
+    @if (Model.Count() <= 0)
+    {
+        <p>@Dnn.LocalizeString("Úgy látszik még nincs foglalásod.")</p>
+    }
+</div>

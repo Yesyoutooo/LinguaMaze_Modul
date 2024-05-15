@@ -26,7 +26,7 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
     [DnnHandleError]
     public class ItemController : DnnController
     {
-
+        
         public ActionResult Delete(int itemId)
         {
             ItemManager.Instance.DeleteItem(itemId, ModuleContext.ModuleId);
@@ -78,16 +78,16 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
             return RedirectToDefaultRoute();
         }
 
+        [HttpGet]
         [ModuleAction(ControlKey = "Edit", TitleKey = "AddItem")]
         public ActionResult Index()
         {
-            var items = ItemManager.Instance.GetItems(ModuleContext.ModuleId);
-
+            //var items = ItemManager.Instance.GetItems(ModuleContext.ModuleId);
             var current_user_ID = base.User.UserID;
 
             var passes = PassesManager.Instance.GetPassesByUserID(current_user_ID);
 
-            if (passes.Count() ==0)
+            if (passes.Count() <= 0)
             {
                 return View("Még nem vásároltál privát órát!");
             }
@@ -111,7 +111,28 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
             //    }
             //}
 
-            return View(items);
+            //return View(items);
         }
+
+        [HttpGet]
+        public ActionResult GetAvailableLessons(string type)
+        {
+            var lessons = LessonManager.Instance.GetLessonsByType(type);
+
+            if (lessons.Count() <= 0)
+            {
+                return View("Egylőre nincsenek privát órák ehhez a nyelvhez.");
+            }
+            else
+            {
+                List<Lessons> lessons_List = new List<Lessons>();
+                foreach (var item in lessons)
+                {
+                    lessons_List.Add(item);
+                }
+                return View("GetAvailableLessons",lessons_List);
+            }
+        }
+
     }
 }

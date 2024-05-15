@@ -111,11 +111,14 @@
       <DependentUpon>Settings.resx</DependentUpon>
     </Compile>
     <Compile Include="Components\FeatureController.cs" />
+    <Compile Include="Components\LessonManager.cs" />
     <Compile Include="Components\PassesManager.cs" />
     <Compile Include="Components\ProductManager.cs" />
     <Compile Include="Components\OrderManager.cs" />
     <Compile Include="Components\ItemManager.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
+    <Compile Include="Models\Bookings.cs" />
+    <Compile Include="Models\Lessons.cs" />
     <Compile Include="Models\Passes.cs" />
     <Compile Include="Models\hcc_Order.cs" />
     <Compile Include="Models\hcc_Product.cs" />
@@ -166,6 +169,7 @@
     <Content Include="Views\Item\Index.cshtml" />
     <Content Include="Views\Item\Edit.cshtml" />
     <Content Include="Views\Settings\Settings.cshtml" />
+    <Content Include="Views\Item\GetAvailableLessons.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
