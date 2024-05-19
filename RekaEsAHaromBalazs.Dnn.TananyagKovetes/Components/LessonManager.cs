@@ -20,10 +20,12 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Components
     internal interface ILessonManager
     {
         IEnumerable<Lessons> GetItems(int moduleId);
-        Lessons GetLesson(string orderId);
+        Lessons GetLesson(int orderId);
         IEnumerable<Lessons> GetLessonsByType(string type);
 
         IEnumerable<Lessons> GetLessonByID(int lessonID);
+
+        void UpdateLesson(Lessons lesson);
     }
 
     internal class LessonManager : ServiceLocator<ILessonManager, LessonManager>, ILessonManager
@@ -39,7 +41,7 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Components
             return t;
         }
 
-        public Lessons GetLesson(string lessonId)
+        public Lessons GetLesson(int lessonId)
         {
             Lessons t;
             using (IDataContext ctx = DataContext.Instance())
@@ -48,6 +50,22 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Components
                 t = rep.GetById(lessonId);
             }
             return t;
+        }
+
+        public void UpdateLesson(Lessons t)
+        {
+            using (IDataContext ctx = DataContext.Instance())
+            {
+                var rep = ctx.GetRepository<Lessons>();
+                try
+                {
+                    rep.Update(t);
+                }
+                catch (System.NullReferenceException)
+                {
+
+                }
+            }
         }
 
         public IEnumerable<Lessons> GetLessonsByType(string type)

@@ -79,6 +79,7 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
 
         public ActionResult CreateBooking(int lessonID, int activePassID)
         {
+            System.Diagnostics.Debugger.Launch();
             Bookings newBooking =  new Bookings();
 
             newBooking.PassID = activePassID;
@@ -87,6 +88,11 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
             newBooking.IsCancelled = false;
 
             BookingManager.Instance.CreateBooking(newBooking);
+
+            var chosenLesson = LessonManager.Instance.GetLessonByID(lessonID);
+
+            chosenLesson.FirstOrDefault().IsBooked = true;
+            LessonManager.Instance.UpdateLesson(chosenLesson.FirstOrDefault());
 
             return View("Subscribed");
         }

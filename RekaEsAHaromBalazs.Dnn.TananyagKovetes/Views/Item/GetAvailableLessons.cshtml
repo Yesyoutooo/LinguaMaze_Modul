@@ -13,7 +13,7 @@
     {
         foreach (var item in Model)
         {
-            if (DateTime.UtcNow <= item.DateTime.AddHours(-2) && item.DateTime <= DateTime.UtcNow.AddDays(7))
+            if (DateTime.UtcNow <= item.DateTime.AddHours(-2) && item.DateTime <= DateTime.UtcNow.AddDays(7) && !item.IsBooked)
             {
 
                 <div style="width: 75%;">
