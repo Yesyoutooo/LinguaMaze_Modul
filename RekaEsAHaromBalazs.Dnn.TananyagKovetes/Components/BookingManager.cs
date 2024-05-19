@@ -22,6 +22,7 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Components
         IEnumerable<Bookings> GetItems(int moduleId);
         Bookings GetBooking(string orderId);
         IEnumerable<Bookings> GetBookedLessons(int passId);
+        void CreateBooking(Bookings t);
     }
 
     internal class BookingManager : ServiceLocator<IBookingManager, BookingManager>, IBookingManager
@@ -60,10 +61,26 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Components
         }
 
 
+        public void CreateBooking(Bookings t)
+        {
+            using (IDataContext ctx = DataContext.Instance())
+            {
+                var rep = ctx.GetRepository<Bookings>();
+                try
+                {
+                    rep.Insert(t);
+                }
+                catch (System.NullReferenceException)
+                {
+
+                }
+            }
+        }
 
         protected override System.Func<IBookingManager> GetFactory()
         {
             return () => new BookingManager();
         }
+
     }
 }

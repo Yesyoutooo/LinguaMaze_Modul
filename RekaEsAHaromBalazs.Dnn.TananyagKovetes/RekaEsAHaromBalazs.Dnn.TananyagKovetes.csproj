@@ -165,6 +165,7 @@
     <Content Include="Views\Settings\Settings.cshtml" />
     <Content Include="Views\Item\GetAvailableLessons.cshtml" />
     <Content Include="Views\Item\ShowLessonDetails.cshtml" />
+    <Content Include="Views\Item\Subscribed.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

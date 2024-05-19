@@ -8,52 +8,53 @@
 
 
 <div id="Items-@Dnn.ModuleContext.ModuleId">
-
     @if (Model != null)
     {
         foreach (var item in Model)
         {
-            
-                <div style="width: 75%;">
-                    <div style="float: left; width: 100%; background-color: #f3ebe3; ">
-                        <div style="height: 150px; margin: auto; ">
-                            <p>
+
+            <div style="width: 75%;">
+                <div style="float: left; width: 100%; background-color: #f3ebe3; ">
+                    <div style="height: 150px; margin: auto; ">
+                        <p>
                             @item.Name
-                            <br/>
+                            <br />
                             Dátum: @item.DateTime.ToString("yyyy.MM.dd - HH:mm")
-                            <br/>
-                                @if (item.Place)
-                                {
-                                    <span>(Online)</span>
-                                }
-                                else
-                                {
-                                    <span>(Személyes)</span>
-                                }
-                            </p>
-                            <p>
+                            <br />
+                            @if (item.Place)
+                            {
+                                <span>(Online)</span>
+                            }
+                            else
+                            {
+                                <span>(Személyes)</span>
+                            }
+                        </p>
+                        <p>
                             Foglalás határideje: @item.DateTime.AddHours(-2).ToString("yyyy.MM.dd - HH:mm")<br>
                             Lemondás határideje: @item.DateTime.AddDays(-1).ToString("yyyy.MM.dd - HH:mm")
-                            </p>
-                            <p>Órára érvényes bérletek:</p>
-                            <p>
-                                @item.Type Szókincsfejlesztő <br>
-                                @item.Type Nyelvtancentrikus<br>
-                                @item.Type Beszédcentrikus
+                        </p>
+                        <p>Órára érvényes bérletek:</p>
+                        <p>
+                            @item.Type Szókincsfejlesztő <br>
+                            @item.Type Nyelvtancentrikus<br>
+                            @item.Type Beszédcentrikus <br/>
+                        </p>
+                        <p>Helyszín: LinguaMaze Nyelviskola - Budapest, Valami utca 25.</p>
 
-                            </p>
-                            <p>Helyszín: LinguaMaze Nyelviskola - Budapest, Valami utca 25.</p>
+                        <div style="float: left;">
 
-                            <div style="float: left;">
-                                <a class="btn" href="@Url.Action("GetAvailableLessons", "Item", new {type = item.Type})">Vissza az időpontokhoz</a>
-                                <p>Feliratkozás erre az órára</p>
-                            </div>
+                            <a class="btn" href="@Url.Action("GetAvailableLessons", "Item", new {type = item.Type})">Vissza az időpontokhoz</a>
+                            <a class="btn" href="@Url.Action("CreateBooking", "Item", new {lessonID = item.ID
+                                                ,activePassID = TempData["clickedPassID"]
+                                            })">Feliratkozás erre az órára</a>
                         </div>
                     </div>
                 </div>
-            
+            </div>
+
         }
-        
+
     }
 
     @if (Model.Count() <= 0)

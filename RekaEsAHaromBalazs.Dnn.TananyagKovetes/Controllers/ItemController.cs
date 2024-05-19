@@ -26,7 +26,6 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
     [DnnHandleError]
     public class ItemController : DnnController
     {
-
         public ActionResult Delete(int itemId)
         {
             ItemManager.Instance.DeleteItem(itemId, ModuleContext.ModuleId);
@@ -78,11 +77,24 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
             return RedirectToDefaultRoute();
         }
 
+        public ActionResult CreateBooking(int lessonID, int activePassID)
+        {
+            Bookings newBooking =  new Bookings();
+
+            newBooking.PassID = activePassID;
+            newBooking.LessonID = lessonID;
+            newBooking.ModifiedAt = DateTime.UtcNow;
+            newBooking.IsCancelled = false;
+
+            BookingManager.Instance.CreateBooking(newBooking);
+
+            return View("Subscribed");
+        }
+
         [HttpGet]
         [ModuleAction(ControlKey = "Edit", TitleKey = "AddItem")]
         public ActionResult Index()
         {
-            //var items = ItemManager.Instance.GetItems(ModuleContext.ModuleId);
             var current_user_ID = base.User.UserID;
 
             var passes = PassesManager.Instance.GetPassesByUserID(current_user_ID);
@@ -100,23 +112,13 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
                 }
                 return View(pass_List);
             }
-
-            //var orders = OrderManager.Instance.GetOrderByUser(current_user_ID);
-            //List<string> courses_bvin = new List<string>();
-            //foreach ( var order in orders) 
-            //{
-            //    if (ProductManager.Instance.IsCourse(order.bvin))
-            //    {
-            //        courses_bvin.Add(order.bvin);
-            //    }
-            //}
-
-            //return View(items);
         }
 
         [HttpGet]
-        public ActionResult GetAvailableLessons(string type)
+        public ActionResult GetAvailableLessons(string type, int clickedPassID)
         {
+            TempData["clickedPassID"] = clickedPassID;
+
             var lessons = LessonManager.Instance.GetLessonsByType(type);
 
             if (lessons.Count() <= 0)
@@ -125,19 +127,19 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
             }
             else
             {
-                List<Lessons> lessons_List = new List<Lessons>();
+                List<Lessons> lessons_list = new List<Lessons>();
                 foreach (var item in lessons)
                 {
-                    lessons_List.Add(item);
+                    lessons_list.Add(item);
                 }
-                return View("GetAvailableLessons", lessons_List);
+                
+                return View("GetAvailableLessons", lessons_list);
             }
         }
 
         [HttpGet]
         public ActionResult ShowLessonDetails(int lessonID)
         {
-            System.Diagnostics.Debugger.Launch();
             var selectedLesson = LessonManager.Instance.GetLessonByID(lessonID);
             List<Lessons> lessons_list = new List<Lessons>();
             foreach (var item in selectedLesson)

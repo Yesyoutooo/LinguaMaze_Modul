@@ -36,7 +36,7 @@
 
                     <div style="float: left; width: 33%; background-color: #f3ebe3; ">
                         <div style="height: 150px;  margin: auto;">
-                            <a class="btn" href="@Url.Action("GetAvailableLessons", "Item", new {type = item.Type})">Elérhető időpontok megtekintése</a>
+                            <a class="btn" href="@Url.Action("GetAvailableLessons", "Item", new {type = item.Type, clickedPassID = item.ID})">Elérhető időpontok megtekintése</a>
                         </div>
                     </div>
 
