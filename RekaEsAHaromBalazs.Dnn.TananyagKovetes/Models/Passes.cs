@@ -51,6 +51,10 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Models
         ///</summary>
         public int Quantity { get; set; }
         /// <summary>
+        /// The amount of lessons left in the pass
+        /// </summary>
+        public int LessonsLeft { get; set; }
+        /// <summary>
         /// The language of the ordered course
         /// </summary>
         public string Type { get; set; }

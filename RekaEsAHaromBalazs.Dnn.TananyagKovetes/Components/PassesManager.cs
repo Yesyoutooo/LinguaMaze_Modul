@@ -13,20 +13,23 @@
 using DotNetNuke.Data;
 using DotNetNuke.Framework;
 using System.Collections.Generic;
+using System.IO.Pipes;
 using TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Models;
 
 namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Components
 {
     internal interface IPassesManager
     {
-        IEnumerable<Passes> GetItems(int moduleId);
-        Passes GetOrder(string orderId);
+        IEnumerable<Passes> GetItems();
+        Passes GetPassByID(int passId);
         IEnumerable<Passes> GetPassesByUserID(int userID);
+        void UpdatePass(Passes t);
+        
     }
 
     internal class PassesManager : ServiceLocator<IPassesManager, PassesManager>, IPassesManager
     {
-        public IEnumerable<Passes> GetItems(int moduleId)
+        public IEnumerable<Passes> GetItems()
         {
             IEnumerable<Passes> t;
             using (IDataContext ctx = DataContext.Instance())
@@ -37,7 +40,23 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Components
             return t;
         }
 
-        public Passes GetOrder(string passId)
+        public void UpdatePass(Passes t)
+        {
+            using (IDataContext ctx = DataContext.Instance())
+            {
+                var rep = ctx.GetRepository<Passes>();
+                try
+                {
+                    rep.Update(t);
+                }
+                catch (System.NullReferenceException)
+                {
+
+                }
+            }
+        }
+
+        public Passes GetPassByID(int passId)
         {
             Passes t;
             using (IDataContext ctx = DataContext.Instance())

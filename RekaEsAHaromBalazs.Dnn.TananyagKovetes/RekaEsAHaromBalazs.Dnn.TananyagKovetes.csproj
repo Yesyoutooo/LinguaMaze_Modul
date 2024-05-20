@@ -166,6 +166,9 @@
     <Content Include="Views\Item\GetAvailableLessons.cshtml" />
     <Content Include="Views\Item\ShowLessonDetails.cshtml" />
     <Content Include="Views\Item\Subscribed.cshtml" />
+    <Content Include="Views\Item\GetSubscriptions.cshtml" />
+    <Content Include="Views\Item\ShowSubscriptionDetails.cshtml" />
+    <Content Include="Views\Item\Cancelled.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

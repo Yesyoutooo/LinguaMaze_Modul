@@ -19,15 +19,17 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Components
 {
     internal interface IBookingManager
     {
-        IEnumerable<Bookings> GetItems(int moduleId);
+        IEnumerable<Bookings> GetItems();
         Bookings GetBooking(string orderId);
-        IEnumerable<Bookings> GetBookedLessons(int passId);
+        IEnumerable<Bookings> GetBookedLessonsByPassID(int passId);
         void CreateBooking(Bookings t);
+        IEnumerable<Bookings> GetBookingByLessonID(int lessonId);
+        void UpdateBooking(Bookings t);
     }
 
     internal class BookingManager : ServiceLocator<IBookingManager, BookingManager>, IBookingManager
     {
-        public IEnumerable<Bookings> GetItems(int moduleId)
+        public IEnumerable<Bookings> GetItems()
         {
             IEnumerable<Bookings> t;
             using (IDataContext ctx = DataContext.Instance())
@@ -36,6 +38,22 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Components
                 t = rep.Get();
             }
             return t;
+        }
+
+        public void UpdateBooking(Bookings t)
+        {
+            using (IDataContext ctx = DataContext.Instance())
+            {
+                var rep = ctx.GetRepository<Bookings>();
+                try
+                {
+                    rep.Update(t);
+                }
+                catch (System.NullReferenceException)
+                {
+
+                }
+            }
         }
 
         public Bookings GetBooking(string bookingId)
@@ -49,13 +67,24 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Components
             return t;
         }
 
-        public IEnumerable<Bookings> GetBookedLessons(int passId)
+        public IEnumerable<Bookings> GetBookedLessonsByPassID(int passId)
         {
             IEnumerable<Bookings> bookedLesson;
             using (IDataContext ctx = DataContext.Instance())
             {
                 var rep = ctx.GetRepository<Bookings>();
-                bookedLesson = rep.Find("WHERE Type = @0", passId);
+                bookedLesson = rep.Find("WHERE PassID = @0", passId);
+            }
+            return bookedLesson;
+        }
+
+        public IEnumerable<Bookings> GetBookingByLessonID(int lessonId)
+        {
+            IEnumerable<Bookings> bookedLesson;
+            using (IDataContext ctx = DataContext.Instance())
+            {
+                var rep = ctx.GetRepository<Bookings>();
+                bookedLesson = rep.Find("WHERE LessonID = @0", lessonId);
             }
             return bookedLesson;
         }

@@ -13,10 +13,11 @@
     {
         foreach (var item in Model)
         {
-            if (DateTime.UtcNow <= item.DateTime.AddHours(-2) && item.DateTime <= DateTime.UtcNow.AddDays(7) && !item.IsBooked)
+            if (item.DateTime >= DateTime.UtcNow && item.IsBooked)
             {
 
                 <div style="width: 75%;">
+                    @*<h1>@item.DateTime.ToString("MM.dd")</h1>*@
                     <div style="float: left; width: 33%; background-color: #f3ebe3; ">
                         <div style="height: 150px; margin: auto; ">
                             <p>A bérlet lejár ekkor: <br/>
@@ -33,7 +34,7 @@
 
                     <div style="float: left; width: 33%; background-color: #f3ebe3; ">
                         <div style="height: 150px;  margin: auto;">
-                            <a class="btn" href="@Url.Action("ShowLessonDetails", "Item", new {lessonID = item.ID})">Részletek</a>
+                            <a class="btn" href="@Url.Action("ShowSubscriptionDetails", "Item", new {lessonID = item.ID})">Részletek</a>
                         </div>
                     </div>
 

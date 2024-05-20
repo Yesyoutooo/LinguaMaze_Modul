@@ -79,8 +79,7 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
 
         public ActionResult CreateBooking(int lessonID, int activePassID)
         {
-            System.Diagnostics.Debugger.Launch();
-            Bookings newBooking =  new Bookings();
+            Bookings newBooking = new Bookings();
 
             newBooking.PassID = activePassID;
             newBooking.LessonID = lessonID;
@@ -94,7 +93,30 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
             chosenLesson.FirstOrDefault().IsBooked = true;
             LessonManager.Instance.UpdateLesson(chosenLesson.FirstOrDefault());
 
+            var chosenPass = PassesManager.Instance.GetPassByID(activePassID);
+            chosenPass.LessonsLeft -= 1;
+            PassesManager.Instance.UpdatePass(chosenPass);
+            
             return View("Subscribed");
+          
+        }
+
+        public ActionResult CancelBooking(int lessonID, int activePassID)
+        {
+            var chosenBooking = BookingManager.Instance.GetBookingByLessonID(lessonID);
+            chosenBooking.FirstOrDefault().IsCancelled = true;
+            BookingManager.Instance.UpdateBooking(chosenBooking.FirstOrDefault());
+
+            var chosenLesson = LessonManager.Instance.GetLessonByID(lessonID);
+            chosenLesson.FirstOrDefault().IsBooked = false;
+            LessonManager.Instance.UpdateLesson(chosenLesson.FirstOrDefault());
+
+            var chosenPass = PassesManager.Instance.GetPassByID(activePassID);
+            chosenPass.LessonsLeft += 1;
+            PassesManager.Instance.UpdatePass(chosenPass);
+
+            return View("Cancelled");
+
         }
 
         [HttpGet]
@@ -120,10 +142,14 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
             }
         }
 
-        [HttpGet]
-        public ActionResult GetAvailableLessons(string type, int clickedPassID)
+        
+        public ActionResult GetAvailableLessons(string type, Nullable<int> clickedPassID)
         {
-            TempData["clickedPassID"] = clickedPassID;
+            if (clickedPassID != null && clickedPassID != -1)
+            {
+                TempData["clickedPassID"] = clickedPassID;
+            }
+
 
             var lessons = LessonManager.Instance.GetLessonsByType(type);
 
@@ -143,16 +169,47 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
             }
         }
 
+        public ActionResult GetSubscriptions(int chosenPass)
+        {
+            var clickedPassBookings = BookingManager.Instance.GetBookedLessonsByPassID(chosenPass);
+            List<Lessons> lessonsToList = new List<Lessons>();
+            if (chosenPass != -1)
+            {
+                TempData["clickedPassID"] = chosenPass;
+            }
+
+            foreach (var item in clickedPassBookings)
+            {
+                lessonsToList.Add(LessonManager.Instance.GetLesson(item.LessonID));
+            }
+            return View("GetSubscriptions", lessonsToList);
+
+        }
+
         [HttpGet]
         public ActionResult ShowLessonDetails(int lessonID)
         {
             var selectedLesson = LessonManager.Instance.GetLessonByID(lessonID);
+
             List<Lessons> lessons_list = new List<Lessons>();
             foreach (var item in selectedLesson)
             {
                 lessons_list.Add(item);
             }
             return View("ShowLessonDetails", lessons_list);
+        }
+
+        [HttpGet]
+        public ActionResult ShowSubscriptionDetails(int lessonID)
+        {
+            var selectedLesson = LessonManager.Instance.GetLessonByID(lessonID);
+
+            List<Lessons> lessons_list = new List<Lessons>();
+            foreach (var item in selectedLesson)
+            {
+                lessons_list.Add(item);
+            }
+            return View("ShowSubscriptionDetails", lessons_list);
         }
 
     }

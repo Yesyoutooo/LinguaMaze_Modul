@@ -44,13 +44,16 @@
 
                         <div style="float: left;">
 
-                            <a class="btn" href="@Url.Action("GetAvailableLessons", "Item", new { type = item.Type, activePassID = -1})">Vissza az időpontokhoz</a>
-                                <a class="btn" href="@Url.Action("CreateBooking", "Item", new {lessonID = item.ID
-                                                                        ,activePassID = TempData["clickedPassID"]
-                                                                                })">Feliratkozás erre az órára
-                                </a>
-                            
+                            <a class="btn" href="@Url.Action("Index", "Item")">Vissza az bérleteimhez</a>
 
+                            @if (!(item.DateTime.AddHours(-2) <= DateTime.UtcNow))
+                            {
+                                <a class="btn" href="@Url.Action("CancelBooking", "Item", new {lessonID = item.ID
+                                        ,activePassID = TempData["clickedPassID"]
+                                                })">
+                                    Leiratkozás erről az óráról
+                                </a>
+                            }
                         </div>
                     </div>
                 </div>
