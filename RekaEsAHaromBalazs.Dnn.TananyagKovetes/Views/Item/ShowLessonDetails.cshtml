@@ -7,54 +7,62 @@
 
 
 
-<div id="Items-@Dnn.ModuleContext.ModuleId">
+<div id="Items-@Dnn.ModuleContext.ModuleId" style="background-color: #f3ebe3; padding-bottom: 10px;">
+    <h1 style="font-family: 'Open Sans'; color: #4a4e69; font-weight: bold;">Óra adatai</h1>
     @if (Model != null)
     {
         foreach (var item in Model)
         {
+            <div style="background-color: #ccaca4; width: 100%; display: inline-grid; grid-template-columns: auto; row-gap: 10px; padding: 10px; border-radius: 10px ">
+                <div style="background-color: #f3ebe3; text-align: left; padding: 15px 0 0 20px; border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
+                    <p style="font-family: 'Open Sans'; font-size: 15px; color: #4a4e69; font-weight:bold;">
+                        @item.Name
+                        <br />
+                        Dátum: @item.DateTime.ToString("yyyy.MM.dd - HH:mm")
+                        <br />
+                        @if (item.Place)
+                        {
+                            <span>(Online)</span>
+                        }
+                        else
+                        {
+                            <span>(Személyes)</span>
+                        }
+                    </p>
+                    <p style="font-family: 'Open Sans'; font-size: 15px; color: #4a4e69; font-weight:bold;">
+                        Foglalás határideje: @item.DateTime.AddHours(-2).ToString("yyyy.MM.dd - HH:mm")<br>
+                        Lemondás határideje: @item.DateTime.AddDays(-1).ToString("yyyy.MM.dd - HH:mm")
+                    </p>
+                    <p style="font-family: 'Open Sans'; font-size: 15px; color: #4a4e69; font-weight:bold;">
+                        Órára érvényes bérletek: <br />
 
-            <div style="width: 75%;">
-                <div style="float: left; width: 100%; background-color: #f3ebe3; ">
-                    <div style="height: 150px; margin: auto; ">
-                        <p>
-                            @item.Name
-                            <br />
-                            Dátum: @item.DateTime.ToString("yyyy.MM.dd - HH:mm")
-                            <br />
-                            @if (item.Place)
-                            {
-                                <span>(Online)</span>
-                            }
-                            else
-                            {
-                                <span>(Személyes)</span>
-                            }
-                        </p>
-                        <p>
-                            Foglalás határideje: @item.DateTime.AddHours(-2).ToString("yyyy.MM.dd - HH:mm")<br>
-                            Lemondás határideje: @item.DateTime.AddDays(-1).ToString("yyyy.MM.dd - HH:mm")
-                        </p>
-                        <p>Órára érvényes bérletek:</p>
-                        <p>
-                            @item.Type Szókincsfejlesztő <br>
-                            @item.Type Nyelvtancentrikus<br>
-                            @item.Type Beszédcentrikus <br/>
-                        </p>
-                        <p>Helyszín: LinguaMaze Nyelviskola - Budapest, Valami utca 25.</p>
+                        - @item.Type Szókincsfejlesztő <br />
+                        - @item.Type Nyelvtancentrikus <br />
+                        - @item.Type Beszédcentrikus <br />
 
-                        <div style="float: left;">
-
-                            <a class="btn" href="@Url.Action("GetAvailableLessons", "Item", new { type = item.Type, activePassID = -1})">Vissza az időpontokhoz</a>
-                                <a class="btn" href="@Url.Action("CreateBooking", "Item", new {lessonID = item.ID
-                                                                        ,activePassID = TempData["clickedPassID"]
-                                                                                })">Feliratkozás erre az órára
-                                </a>
-                            
-
-                        </div>
-                    </div>
+                    </p>
+                    <p style="font-family: 'Open Sans'; font-size: 15px; color: #4a4e69; font-weight:bold;">Helyszín: LinguaMaze Nyelviskola - Budapest, Valami utca 25.</p>
                 </div>
             </div>
+
+            <div style=" display:inline-block; margin:10px; color: white; padding: 10px; background-color: #4a4e69; border-radius: 10px; width: 20%; font-size: 20px; font-weight: bold;">
+                <a style=" text-decoration: none; color: inherit;"
+                   href="@Url.Action("GetAvailableLessons", "Item", new { type = item.Type, clickedPassID = -1})">Vissza az időpontokhoz</a>
+            </div>
+
+           if (!(item.DateTime.AddHours(-2) <= DateTime.UtcNow))
+            {
+                <div style=" display:inline-block; margin:10px; color: white; padding: 10px; background-color: #4a4e69; border-radius: 10px; width: 20%; font-size: 20px; font-weight: bold;">
+
+
+
+                    <a style=" text-decoration: none; color: inherit;" href="@Url.Action("CreateBooking", "Item", new {lessonID = item.ID
+                             ,activePassID = TempData["clickedPassID"]
+                                     })">
+                        Feliratkozás erre az órára
+                    </a>
+                </div>
+            }
 
         }
 

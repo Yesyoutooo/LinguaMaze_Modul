@@ -7,60 +7,78 @@
 
 
 
-<div id="Items-@Dnn.ModuleContext.ModuleId" style="background-color: #ccaca4;">
+<div id="Items-@Dnn.ModuleContext.ModuleId" style="background-color: #f3ebe3; padding-bottom: 10px; ">
+
+    <h1 style="font-family: 'Open Sans'; color: #4a4e69; font-weight: bold;">Bérleteim</h1>
+    @if (Model == null)
+    {
+        <p>Nincs aktív bérleted.</p>
+    }
     @if (Model.Count() > 0)
     {
-        foreach (var item in Model)
-        {
-            var lefoglaltOrak = item.Quantity - item.LessonsLeft;
-            if (item.TimeOfOrder.AddDays(item.Quantity * 5).Date > DateTime.UtcNow.Date)
+        <div style="background-color: #ccaca4; width: 100%; display: inline-grid; grid-template-columns: auto auto auto; row-gap: 10px; padding: 10px; border-radius: 10px ">
+            @foreach (var item in Model)
             {
-                <div style="width: 75%;">
+                var lefoglaltOrak = item.Quantity - item.LessonsLeft;
+                if (item.TimeOfOrder.AddDays(item.Quantity * 5).Date > DateTime.UtcNow.Date)
+                {
+                    <div style="background-color: #f3ebe3; text-align: left; padding: 15px 0 0 20px; border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
+                        <p style="font-family: 'Open Sans'; font-size: 15px; color: #4a4e69; font-weight:bold;">
+                            A bérlet lejár ekkor: <br />
+                            @item.TimeOfOrder.AddDays(item.Quantity * 5).ToString("yyyy.MM.dd") <br />
+                        </p>
+                        <p  style="font-family: 'Open Sans'; font-size: 15px; color: #4a4e69; font-weight:bold;">
+                            Felhasznált órák száma:        @lefoglaltOrak  <br />
+                            További lefoglalható órák száma: @item.LessonsLeft
+                        </p>
 
-                    <div style="float: left; width: 33%; background-color: #f3ebe3;">
-                        <div style="height: 150px; margin: auto; ">
-                            <p>
-                                A bérlet lejár ekkor: <br />
-                                @item.TimeOfOrder.AddDays(item.Quantity * 5).ToString("yyyy.MM.dd") <br />
-                                Már lefoglalt órák száma:        @lefoglaltOrak  <br />
-                                További lefoglalható órák száma: @item.LessonsLeft
-                            </p>
-                        </div>
                     </div>
 
-                    <div style="float: left; width: 33%; background-color: #f3ebe3; ">
-                        <div style="height: 150px;  margin: auto; ">
-                            <p> @item.Name</p>
-                        </div>
-                    </div>
+                     <div style=" background-color: #f3ebe3; text-align: left; padding-left: 20px; ">
+                         <p style="padding-top: 40px; font-family: 'Open Sans'; font-size: 20px; color: #4a4e69; font-weight: bold;">
+                             @item.Name.Split(' ')[0]
+                             <br />
+                             @item.Name.Split(' ')[1]
+                         </p>
+                             
+                     </div>
 
-                    <div style="float: left; width: 33%; background-color: #f3ebe3; ">
-                        <div style="height: 150px;  margin: auto;">
-                            <p>
-                                @if (item.LessonsLeft != item.Quantity)
-                                {
-                                    <a href="@Url.Action("GetSubscriptions", "Item", new {chosenPass = item.ID})">Lefoglalt óráim megtekintése</a>
-                                }
+                     <div style="background-color: #f3ebe3; text-align: left; border-top-right-radius: 10px; border-bottom-right-radius: 10px; ">
 
-                                <br />
-                                @if (item.LessonsLeft > 0)
-                                {
-                                    <a class="btn" href="@Url.Action("GetAvailableLessons", "Item", new {type = item.Type, clickedPassID = item.ID})">Elérhető időpontok megtekintése</a>
-                                }
+                         <p style="font-family: 'Open Sans';align-content:center">
+                             @if (item.LessonsLeft == item.Quantity)
+                             {
+                                 <div style="margin-top: 40px; color: white; padding: 10px; background-color: #4a4e69; border-radius: 10px; width: 60%; font-size: 20px; font-weight: bold;">
+                                     <a style=" text-decoration: none; color: inherit; font-size: 20px"
+                                        href="@Url.Action("GetAvailableLessons", "Item", new { type = item.Type, clickedPassID = item.ID })">Elérhető időpontok megtekintése</a>
+                                 </div>
 
-                            </p>
-                            
-                        </div>
-                    </div>
-
-                </div>
+                             }
+                             else if (item.LessonsLeft <= item.Quantity && item.LessonsLeft > 0)
+                             {
+                                 <div style="color: white; padding: 10px; background-color: #4a4e69; border-radius: 10px; width: 60%; font-size: 20px; font-weight: bold;">
+                                     <a style=" text-decoration: none; color: inherit;"
+                                        href="@Url.Action("GetAvailableLessons", "Item", new { type = item.Type, clickedPassID = item.ID })">Elérhető időpontok megtekintése</a>
+                                 </div>
+                                <br/>
+                                 <div style="color: white; padding: 10px; background-color: #4a4e69; border-radius: 10px; width: 60%; font-size: 20px; font-weight: bold;">
+                                     <a style=" text-decoration: none; color:inherit;"
+                                        href="@Url.Action("GetSubscriptions", "Item", new { chosenPass = item.ID })">Lefoglalt óráim megtekintése</a>
+                                 </div>
+                             }
+                             else if (item.LessonsLeft <= 0)
+                             {
+                                 <div style="margin-top: 40px; color: white; padding: 10px; background-color: #4a4e69; border-radius: 10px; width: 60%; font-size: 20px; font-weight: bold;">
+                                    <a style=" text-decoration: none; color:inherit;"
+                                        href="@Url.Action("GetSubscriptions", "Item", new { chosenPass = item.ID })">Lefoglalt óráim megtekintése</a>
+                                 </div>
+                             }
+                             </p>
+                      </div>
+                }
             }
-            else
-            {
-                <p> </p>
-            }
-        }
-    }
+        </div>
+     }
 
     @if (Model.Count() <= 0)
     {

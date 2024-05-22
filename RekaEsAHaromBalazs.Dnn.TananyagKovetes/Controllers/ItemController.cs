@@ -143,9 +143,9 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
         }
 
         
-        public ActionResult GetAvailableLessons(string type, Nullable<int> clickedPassID)
+        public ActionResult GetAvailableLessons(string type,int clickedPassID)
         {
-            if (clickedPassID != null && clickedPassID != -1)
+            if (clickedPassID != -1)
             {
                 TempData["clickedPassID"] = clickedPassID;
             }
@@ -164,8 +164,8 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
                 {
                     lessons_list.Add(item);
                 }
-                
-                return View("GetAvailableLessons", lessons_list);
+                var ordered_lessons_list = lessons_list.OrderBy(i => i.DateTime).ToList();
+                return View("GetAvailableLessons", ordered_lessons_list);
             }
         }
 
@@ -180,9 +180,14 @@ namespace TananyagKovetesRekaEsAHaromBalazs.Dnn.TananyagKovetes.Controllers
 
             foreach (var item in clickedPassBookings)
             {
-                lessonsToList.Add(LessonManager.Instance.GetLesson(item.LessonID));
+                if (item.IsCancelled == false)
+                {
+                    lessonsToList.Add(LessonManager.Instance.GetLesson(item.LessonID));
+                    ViewBag.e = item.IsCancelled;
+                }
             }
-            return View("GetSubscriptions", lessonsToList);
+            var ordered_lessons_list = lessonsToList.OrderBy(i => i.DateTime).ToList();
+            return View("GetSubscriptions", ordered_lessons_list);
 
         }
 
